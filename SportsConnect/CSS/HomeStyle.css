@@ -1,0 +1,115 @@
+*{
+    padding: 0%;
+    margin: 0%;
+    font-family: "Urbanist", sans-serif;
+}
+
+.navbar{
+    background-color: #292626;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navlist{
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+.logo{
+    height: 60px;
+    width: 90px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+/* .logo img{
+    height: 60px;
+    width: 90px;
+} */
+.label{
+    font-style: italic;
+    font-weight: 500;
+    margin-left: 5px;
+    color: white;
+}
+.navlist li{
+    margin-left: 10px;
+    margin-right: 5px;
+}
+.navlist li a{
+    text-decoration: none;
+    color:white;
+}
+.navlist li a:hover{
+    color: darkgoldenrod;
+}
+#player{
+    height: 450px;
+    width: 100%;
+    display: flex;
+}
+.half1{
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.half2{
+    height: 100%;
+    flex: 1;
+}
+#football{
+    height: 100%;
+    width: 100%;
+    display: block;
+
+}
+.org{
+    height: 450px;
+    width: 100%;
+    display: flex;
+}
+.org1{
+    flex: 1;
+}
+.org1 img{
+    height: 100%;
+    width: 100%;
+}
+.org2{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.link{
+    text-decoration: none;
+    text-transform: uppercase;
+    background-color: #292626;
+    padding: 10px;
+    font-weight: 500;
+    color: rgb(255, 98, 0);
+    border-radius: 5px;
+}
+.link:hover{
+    color: #292626;
+    /* font-weight: 700; */
+    background-color: rgb(255, 98, 0);
+}
+.para{
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.para2{
+    padding: 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

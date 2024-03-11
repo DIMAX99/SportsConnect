@@ -1,0 +1,48 @@
+*{
+    margin: 0%;
+    padding: 0%;
+    font-family: "Urbanist", sans-serif;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+body{
+    background-color: beige;
+}
+.container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: cornflowerblue;
+    border: 2px solid black;
+    border-radius: 2px;
+}
+
+#log_form{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 20px 20px 20px;
+}
+.title{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 6px;
+    align-items: center;
+    flex-direction: column;
+    border-bottom: 2px solid black;
+    margin-bottom: 13px;
+}
+.log_det{
+    margin-bottom: 10px;
+}
+.user_pass{
+    margin-left: 5px;
+}
+.logbtn{
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
