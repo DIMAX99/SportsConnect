@@ -1,0 +1,96 @@
+*{
+    padding: 0%;
+    margin: 0%;
+    overflow: hidden;
+    font-family: "Urbanist", sans-serif;
+}
+
+.navbar{
+    width: 100%;
+    background-color: #292626;
+    display: flex;
+    justify-content: space-between;
+    overflow: visible;
+    position: fixed;
+    top:0;
+}
+
+.navlist{
+    display: flex;
+    list-style: none;
+    align-items: center;
+    margin-right: 15px;
+}
+.logo{
+    height: 60px;
+    width: px;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+.logo img{
+    height: 60px;
+    width: 69.43px;
+}
+.label{
+    font-style: italic;
+    height: 19.2px;
+    width: 132.91px;
+    font-weight: 500;
+    margin-left: 5px;
+    color: white;
+}
+.navlist li{
+    margin-left: 10px;
+    margin-right: 5px;
+}
+.navlist li a{
+    text-decoration: none;
+    color:white;
+}
+.navlist li a:hover{
+    color: rgb(255, 98, 0);
+}
+.nav2{
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: visible;
+}
+.pic{
+    height: 50px;
+    width: 60.43px;
+    margin-right: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.dropdown{
+    position: absolute;
+    display: none;
+    top: 100%;
+    right: 8%;
+    z-index: 100;
+    margin-top: 10px;
+    background-color: #292626;
+    padding: 10px;
+    border-radius: 3px  ;
+    /* overflow: auto; */
+}
+/* .account_icon:hover .dropdown{
+    display: block;
+} */
+.dropdown ul{
+    list-style: none;
+}
+.dropdown ul li{
+    border: 2px solid white;
+    margin-bottom: 5px;
+    padding: 6px;
+}
+.dropdown ul li a{
+    text-decoration: none;
+    color: white;
+}
+.dropdown ul li a:hover{
+    color: rgb(255, 98, 0);
+}
