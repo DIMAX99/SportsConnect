@@ -1,0 +1,169 @@
+:root {
+    --primary-color: #1b2330;
+    --font-size: 16px;
+    --primary-back-color:rgb(245, 245, 245);
+}
+*{
+    margin: 0%;
+    padding: 0%;
+    font-family: "Oswald", sans-serif;
+    background-color: var(--primary-back-color);
+}
+#chat-friend-con{
+    display: flex;
+    margin-top: 50px;
+    width: 100%;
+}
+#friend-request-con{
+    width: max-content;
+    border: 2px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    flex: 1;
+    
+}
+#request_list{
+    list-style: none;
+    overflow-y: scroll;
+}
+#request_list>li{
+    margin-top: 10px;
+    /* padding: 5px; */
+}
+.sender-dp{
+    margin-right: 5px;
+    background-color: white ;
+}
+.sender-name-div{
+    background-color: white;
+}
+.sender-name-div>h4{
+    background-color: white ;
+}
+.sender-dp>img{
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.r-l-i-div{
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    background-color: white ;
+    padding: 5px;
+    border-radius: 10px;
+    width: max-content;
+}
+.a-r-btn-div{
+    margin-left: 10px;
+    background-color: white ;
+}
+.a-r-btn{
+    padding: 5px;
+    font-size: 15px;
+    border-radius: 5px;
+    margin-right: 5px;
+    border: none;
+    cursor: pointer;
+}
+.acc{
+    background-color: blue;
+    color: white;
+}
+.rej{
+    background-color: red;
+    color: white;
+}
+.chat-friend-con{
+    display: flex;
+}
+.current_friend_list{
+    /* margin-left: 50px; */
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    flex: 1;
+}
+#friend_list{
+    list-style: none;
+    overflow-y: scroll;
+}
+.friend-list-con{
+    background-color: white;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 10px;
+}
+.friend-dp-con{
+    background-color: white;
+}
+.friend-dp-con>img{
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.friend-name-con{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.friend-name-con>h4{
+    background-color: white;
+}
+.v-m-btn-div{
+    background-color: white;
+}
+.v-m-btn{
+    background-color: white;
+    padding: 4px;
+    font-size: 15px;
+    border: none;
+    border-radius: 5px;
+    transition: 0.5s;
+}
+.v{
+    background-color: red;
+    color: white;
+    border: 2px solid red;
+}
+.m{
+    background-color: blue;
+    color: white;
+    border: 2px solid blue;
+}
+.v:hover{
+    background-color: white;
+    color: red;
+}
+.m:hover{
+    background-color: white;
+    color: blue;
+}
+.chat-section{
+    flex: 2;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+    /* overflow-y: scroll; */
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+.message-send-input>form{
+    display: flex;
+}
+.message-send-input>form>input{
+    flex: 7;
+    margin: 5px;
+}
+.message-send-input>form>button{
+    flex: 1;
+    margin: 5px;
+}

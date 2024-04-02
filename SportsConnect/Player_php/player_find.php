@@ -23,32 +23,66 @@ if(!isset($_SESSION['logged']) || $_SESSION['logged']!=true){
     <script src="../Javascript/find.js"></script>
     <link rel="stylesheet" href="../CSS/find_player_pl.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        main{
+            padding-top: 5.125em;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar">     
-        <div class="logo" id="logo">
-            <img src="../Images/logo_only.png" alt="logo" class="logo" name="logo">
-            <div class="label">
-                <label for="logo">SPORTSCONNECT</label>
+    <?php
+    include"../HTML/trial.php";
+    ?>
+    <main>
+        <section class="search_sec">
+            <div class="srchcon">
+                <span class="material-symbols-outlined">search</span>
+                <input type="search" name="player" id="player" placeholder="Search Players....">
             </div>
-        </div>
-        <div class="nav2">
-            <ul class="navlist" id="navlist">
-                <li><a href="../Player_php/home.php">Home</a></li>
-                <li><a href="#">players</a></li>
-                <li><a href="#">matches</a></li> 
-            </ul>
-        </div>
-    </nav>
-    <section class="search_sec">
-        <div class="srchcon">
-            <span><img src="../Images/search.png" alt="search"></span>
-            <input type="search" name="player" id="player" placeholder="Search Players....">
-        </div>
-    </section>
-    <section class="player_details">
-        <div id="player_info"></div>
-    </section>
+        </section>
+        <section class="player_details">
+            <div id="player_info"></div>
+        </section>
+    </main>
+    <script>
+        $(document.body).on('click','.cancel-request-btn',function(){
+            var player_list_item=$(this).closest('li');
+            var player_username =player_list_item.find('.player_card_con .lower .pusername').text().trim();
+            var button = $(this)
+            jQuery.ajax({
+               type:'post',
+               url:'../support_php/ajax-del-friend-req.php',
+               data:{player:player_username},
+               success:function(rt){
+                button.text('Add Friend');
+                button.removeClass('cancel-request-btn');
+                button.addClass('add-friend-btn');
+                console.log(rt);
+               } 
+            });
+        });
+        $(document.body).on('click','.add-friend-btn',function(){
+            var player_list_item=$(this).closest('li');
+            var player_username =player_list_item.find('.player_card_con .lower .pusername').text().trim();
+            var button = $(this)
+            jQuery.ajax({
+               type:'post',
+               url:'../support_php/ajax-friend-request.php',
+               data:{player:player_username},
+               success:function(rt){
+                button.text('Cancel Request');
+                button.addClass('cancel-request-btn');
+                button.removeClass('add-friend-btn');
+                console.log(rt);
+               } 
+            });
+        });
+        
+</script>
 </body>
 </html>

@@ -14,18 +14,19 @@ if(isset($_POST['submit'])){
     $password=$_POST['pass'];
     $validpass=password_hash($password,PASSWORD_DEFAULT);
 
-    $sql="select password from player where username=:username";
+    $sql="select id,password from player where username=:username";
     $stmt=$con->prepare($sql);
     $stmt->bindParam(':username',$username);   
     $stmt->execute();
     $detail=$stmt->fetch(PDO::FETCH_ASSOC);
-
+    
     if(empty($detail)){
         $error='Incorrect Username';
     }else{
        if(password_verify($password, $detail['password'])){
         session_start();
         $_SESSION['username']=$username;
+        $_SESSION['id']=$detail['id'];
         $_SESSION['logged']=true;
         header('location:../Player_php/home.php');
         exit;
