@@ -39,7 +39,7 @@ SportsConnect is a dynamic website where users can register as players or organi
 
 ## Contributors
 
-- Dimax99() - Developer
+- Dimax99(https://github.com/DIMAX99) - Developer
 
 ## License
 
