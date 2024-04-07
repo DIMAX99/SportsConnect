@@ -9,7 +9,7 @@ SportsConnect is a dynamic website where users can register as players or organi
 - **Player Registration:** Players can register for tournaments either individually or as part of a team.
 - **Chat System:** Players can communicate with each other through a built-in chat system.
 - **Friend Requests:** Players can send and receive friend requests, allowing them to connect with other players.
-- **Player Search:** Users can search for other players based on different criteria such as location, skill level, etc.
+- **Player Search:** Users can search for other players based on location and username.
 
 ## Technologies Used
 
@@ -24,7 +24,7 @@ SportsConnect is a dynamic website where users can register as players or organi
 
 1. Clone the repository to your local machine.
 2. Set up a local server environment using XAMPP or similar software.
-3. Import the database schema provided in the `database` directory.
+3. Import the 'sc' database schema provided in the repository.
 4. Configure the database connection in the PHP files located in the `support_php` directory.
 5. Start the Apache and MySQL servers.
 6. Access the website through a web browser using the local server's address.
