@@ -1,0 +1,171 @@
+:root {
+    --primary-color: #1b2330;
+    --font-size: 16px;
+    --primary-back-color:rgb(245, 245, 245);
+}
+*{
+    margin: 0%;
+    padding: 0%;
+    font-family: "Oswald", sans-serif;
+    background-color: var(--primary-back-color);
+}
+.search_sec{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+.search_sec>p{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.search_sec>.near-btn-div>button{
+    padding: 10px;
+    background-color: #1b2330;
+    color: aliceblue;
+    border: none;
+    border-radius: 4px;
+    transition: 0.6s;
+}
+.search_sec>.near-btn-div>button:hover{
+    cursor: pointer;
+    background-color: darkblue;
+    color: white;
+}
+
+.srchcon{
+    width: max-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-radius: 30px;
+    background-color: white;
+}
+#player{
+    margin-left: 5px;
+    width: 400px;
+    height: 40px;
+    outline: none;
+    border: none;
+    font-size: 18px;
+    background-color: white;
+}
+#player::placeholder{
+    font-family: "Urbanist", sans-serif;
+}
+.player_details{
+    padding: 10px 100px 10px 100px;
+    margin-top: 40px;
+}
+#player_list{
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    /* justify-content: space-around; */
+}
+#player_list .player_list_item{
+    height: 305px;
+    width: 300px;
+    background-color: white;
+    margin-right: 15px;
+    border-radius: 12px;
+    padding: 10px;
+}
+.player_card_con{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 5px;
+}
+.player_card_con .upper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.player_card_con .lower{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+}
+.player_card_con .lower #pn{
+    font-size: 25px;
+    font-weight: 500;
+}
+.player_card_con .lower #pn_add{
+    font-size: 17px;
+    font-weight: 300;
+    margin-top: 15px;
+}
+#player_profile_pic{
+    height: 135px;
+    border-radius: 50%;
+    margin-top: 10px;
+    border: 2px solid white;
+}
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24;
+  background-color: white;
+}
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+.view-addfriend-button-div{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 5px;
+}
+.view-addfriend-button-div>div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: red;
+    padding: 1px 5px 1px 5px;
+    transition: 0.6s;
+    border-radius: 5px;
+}
+.view-addfriend-button-div>div>span{
+    background-color: red;
+    color: var(--primary-color);
+    transition: 0.6s;
+
+}
+.view-addfriend-button-div>div>button{
+    background-color: red;
+    border: none;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 7px;
+    transition: 0.6s;
+}
+.view-addfriend-button-div>div:hover span,
+.view-addfriend-button-div>div:hover button{
+    background-color: #1b2330;
+    color: white;
+    cursor: pointer;
+}
+.view-addfriend-button-div>div:hover{
+    background-color: #1b2330;
+    color: white;
+    cursor: pointer;
+}
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+
+

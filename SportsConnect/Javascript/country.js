@@ -9,7 +9,7 @@ $(document).ready(function(){
         else{
          jQuery.ajax({
             type:'post',
-            url:'../PHP/get_data.php',
+            url:'../support_php/get_data.php',
             data:'id='+id,
             success:function(result){
                 jQuery('#state').html(result);
@@ -17,7 +17,7 @@ $(document).ready(function(){
          });
          jQuery.ajax({
             type:'post',
-            url:'../PHP/get_code.php',
+            url:'../support_php/get_code.php',
             data:'id='+id,
             success:function(result){
                 var countryCode = result.startsWith('+') ? result : '+' + result;
@@ -35,7 +35,7 @@ $(document).ready(function(){
         else{
          jQuery.ajax({
             type:'post',
-            url:'../PHP/get_city.php',
+            url:'../support_php/get_city.php',
             data:'id='+id,
             success:function(result){
                 jQuery('#city').html(result);
