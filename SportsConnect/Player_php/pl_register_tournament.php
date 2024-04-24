@@ -7,23 +7,68 @@ $q="select * from tournament where name=:t_name";
         $stmt->bindParam(":t_name",$tournament_name);
         $stmt->execute();
         $d=$stmt->fetch(PDO::FETCH_ASSOC);
+
+$get_new_day="select * 
+        from tournament_day_schedule
+        where 
+        tourna_id=:tourna_id";
+$get_new_day_stmt=$con->prepare($get_new_day);
+$get_new_day_stmt->bindParam(":tourna_id",$d['id']);
+$get_new_day_stmt->execute();
+
 $sql="select id,name from countries ";
 $stmt=$con->prepare($sql);
 $stmt->execute();
 $arrCountry=$stmt->fetchAll(PDO::FETCH_ASSOC);
 
+
 if(isset($_POST['submit'])){
-    $cr_team="insert into teams (name,leader_id,country_id,state_id,city_id) values(:t_name,:leader_id,:country_id,:state_id,:city_id);";
-    $crstmt=$con->prepare($cr_team);
-    $crstmt->bindParam(":t_name",$_POST['team_name']);
-    $crstmt->bindParam(":leader_id",$_POST['leader_id']);
-    $crstmt->bindParam(":country_id",$_POST['country']);
-    $crstmt->bindParam(":state_id",$_POST['state']);
-    $crstmt->bindParam(":city_id",$_POST['city']);
-    $crstmt->execute();
     try{
         $con->beginTransaction();
-        foreach($_POST['player_id'] as $id){
+        $cr_team="insert into teams (name,leader_id,country_id,state_id,city_id) values(:t_name,:leader_id,:country_id,:state_id,:city_id);";
+        $crstmt=$con->prepare($cr_team);
+        $crstmt->bindParam(":t_name",$_POST['team_name']);
+        $crstmt->bindParam(":leader_id",$_POST['leader_id']);
+        $crstmt->bindParam(":country_id",$_POST['country']);
+        $crstmt->bindParam(":state_id",$_POST['state']);
+        $crstmt->bindParam(":city_id",$_POST['city']);
+        $crstmt->execute();
+        foreach($_POST['player_id'] as $id)
+        {   
+            $total_conflict=0;
+            $query="select t.tournament_id 
+                    from registration t,team_member tm 
+                    where t.team_id=tm.team_id and tm.player_id=:player_id";
+            $querycheck=$con->prepare($query);
+            $querycheck->bindParam(":player_id",$id);
+            $querycheck->execute();
+            while($reg=$querycheck->fetch(PDO::FETCH_ASSOC)){
+                $get_day="select * 
+                        from tournament_day_schedule
+                        where 
+                        tourna_id=:tourna_id";
+                $get_day_stmt=$con->prepare($get_day);
+                $get_day_stmt->bindParam(":tourna_id",$reg['tournament_id']);
+                $get_day_stmt->execute();
+                while($day=$get_day_stmt->fetch(PDO::FETCH_ASSOC)){
+                    $day_obj=new DateTime($day['day_start_time']);
+                    $day_date=$day_obj->format('Y-m-d');
+                    $old_start_time=date('H:i:s',strtotime($day['day_start_time']));
+                    $old_end_time=date('H:i:s',strtotime($day['day_end_time']));
+                    while($new_day=$get_new_day_stmt->fetch(PDO::FETCH_ASSOC)){
+                        $new_day_obj=new DateTime($day['day_start_time']);
+                        $new_day_date=$new_day_obj->format('Y-m-d');
+                        $new_start_time=date('H:i:s',strtotime($new_day['day_start_time']));
+                        $new_end_time=date('H:i:s',strtotime($new_day['day_end_time']));
+                        if($day_date==$new_day_date){
+                            if(!(($new_end_time<$old_start_time)&&($new_start_time>$old_end_time))){
+                                $total_conflict=$total_conflict+1;
+                            }
+                        }
+                    }
+                }
+            }
+            if($total_conflict==0){
             $t_pl="INSERT INTO team_member (player_id, team_id)
             values (:player_id, (SELECT id FROM teams WHERE name = :t_name AND EXISTS (SELECT 1 FROM player WHERE unique_id = :player_id)));";
             $t_pl_stmt=$con->prepare($t_pl);
@@ -32,24 +77,31 @@ if(isset($_POST['submit'])){
             if(!$t_pl_stmt->execute()){
                 $con->rollBack();
                 break;
-            }   
+            }  
+            } 
+            else{
+                $con->rollBack();
+                setcookie("player_error","Timing Conflicts of some player",time()+60,"player_matches.php");
+                break;
+            }
          }
-         $con->commit();
+         $registration="insert into registration (tournament_id,team_id) values((select id from tournament where name=:t_name),(select id from teams where name=:name));";
+        $smt=$con->prepare($registration);
+        $smt->bindParam(":t_name",$tournament_name);
+        $smt->bindParam(":name",$_POST['team_name']);
+        if($smt->execute()){
+            $con->commit();
+            setcookie("player_error","Registration Successfull",time()+60,"player_matches.php");
+            header("location:player_matches.php");
+        }
+        else{
+            $con->rollBack();
+            setcookie("player_error","Registration Failed",time()+60,"player_matches.php");
+            header("location:player_matches.php");
+        }
     }catch(PDOException $e){
-        echo $e;
+        setcookie("player_error","Incorrect Player id OR Failed to register",time()+60,"player_matches.php");
     }
-
-    $registration="insert into registration (tournament_id,team_id) values((select id from tournament where name=:t_name),(select id from teams where name=:name));";
-    $smt=$con->prepare($registration);
-    $smt->bindParam(":t_name",$tournament_name);
-    $smt->bindParam(":name",$_POST['team_name']);
-    try{
-        $smt->execute();
-        echo 'registration done';
-    }catch(PDOException $e){
-        $msg='Registration failed';
-    }
-    
     }
 ?>
 <!DOCTYPE html>
@@ -73,9 +125,19 @@ if(isset($_POST['submit'])){
             width: 150px;
             margin: 10px;
         }
+        #msg_error_div>p{
+            color: red;
+        }
     </style>
 </head>
 <body>
+    <div id="msg_error_div">
+        <?php
+        if(isset($msg_error)){
+            echo '<p>'.$message.'</p>';
+        }
+        ?>
+    </div>
     <h1>Registeration</h1>
     <section class="tourna-det">
         <div class="tournament">

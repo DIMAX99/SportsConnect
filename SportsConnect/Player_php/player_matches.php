@@ -1,6 +1,37 @@
 <?php
 include"../support_php/db.php";
 session_start();
+
+if(isset($_COOKIE['player_error']))
+{
+    $message=$_COOKIE['player_error'];
+    echo "<script>
+                document.addEventListener('DOMContentLoaded', function(){
+                var messagediv = document.getElementById('error');
+                messagediv.innerText='$message';
+                messagediv.style.display='block';
+                setTimeout(function(){
+                    messagediv.style.display='none';
+                    },3000)
+                });
+        </script>";
+    setcookie('player_error','',time()-60,'player_matches.php');
+    
+}
+$all_sport="select * from sports";
+$all_sport_stmt=$con->prepare($all_sport);
+$all_sport_stmt->execute();
+$sport_li='<ul id="sport_list">';
+if($all_sport_stmt->rowCount()>0){
+    while($sport=$all_sport_stmt->fetch(PDO::FETCH_ASSOC)){
+        $sport_li.='<li class="sport_menu" data-sport="'.$sport['id'].'">'.$sport['sport'].'</li>';
+    }
+}
+else{
+    $sport_li.='<li>No Sport Available</li>';
+}
+$sport_li.='</ul>';
+
 ?>
 
 <!DOCTYPE html>
@@ -45,6 +76,37 @@ session_start();
             margin: 5px;
             background-color: darkred;
         }
+        .sport_menu:hover{
+            color: red;
+            cursor: pointer;
+            border: 2px solid red;
+        }
+        .sport_menu.selected{
+            color: red;
+            border: 2px solid red;
+        }
+        #sport_list{
+            display: flex;
+            list-style: none;
+            justify-content: space-evenly;
+            background-color: black;
+        }
+        .sport_menu{
+            margin: 10px;
+            width: 12%;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            color: white;
+            text-transform: uppercase;
+            transition: 0.5s;
+            border: 2px solid white;
+            background-color: var(--primary-color);
+        }
+        
     </style>
 </head>
 <body>
@@ -52,115 +114,18 @@ session_start();
     include"../HTML/trial.php";
     ?>
     <main>
+        <div class="error" id="error">
+            
+        </div>
+        <div class="sport_nav">
+            <?php
+            echo $sport_li;
+            ?>
+        </div>
         <section class="upcoming_tournaments">
-            <h2 id="title">Upcoming Matches</h2>
-            <div class="up-tournaments">
-                <?php
-                $ouput_up_tourna='<ul id="upcoming_tournament_list">';
-                $find_tourna="select * from tournament";
-                $find_tourna_stmt=$con->prepare($find_tourna);
-                $find_tourna_stmt->execute();
-                if($find_tourna_stmt->rowCount()>0){
-                    while($tournaments=$find_tourna_stmt->fetch(PDO::FETCH_ASSOC)){
-                        $if_registered=0;
-                        $find_org="select name from organization where id=:id";
-                        $find_org_stmt=$con->prepare($find_org);
-                        $find_org_stmt->bindParam(":id",$tournaments['org_id']);
-                        $find_org_stmt->execute();
-                        $org_name=$find_org_stmt->fetch();
-                        $find_sport="select sport from sports where id=:sport_id";
-                        $find_sport_stmt=$con->prepare($find_sport);
-                        $find_sport_stmt->bindParam(":sport_id",$tournaments['sport_id']);
-                        $find_sport_stmt->execute();
-                        $sport=$find_sport_stmt->fetch();
-                        $t_name=$tournaments['name'];
-                        $c_l="select count(*) 
-                                from teams 
-                                where id in (select team_id from registration where tournament_id=:tourna_id) 
-                                and
-                                leader_id=:current_user_id;";
-                        $c_l_stmt=$con->prepare($c_l);
-                        $c_l_stmt->bindParam(":tourna_id",$tournaments['id']);
-                        $c_l_stmt->bindParam(":current_user_id",$_SESSION['unique_id']);
-                        $c_l_stmt->execute();
-                        $is_leader=$c_l_stmt->fetchColumn();
-                        $c_pl="select player_id 
-                                from team_member 
-                                where team_id in (select team_id from registration where tournament_id=:tourna_id) 
-                                and
-                                player_id=:current_user_id;";
-                        $c_pl_stmt=$con->prepare($c_pl);
-                        $c_pl_stmt->bindParam(":tourna_id",$tournaments['id']);
-                        $c_pl_stmt->bindParam(":current_user_id",$_SESSION['unique_id']);
-                        $c_pl_stmt->execute();
-                        $no_of_reg="select count(*) from registration where tournament_id=:tourna_id";
-                        $no_of_reg_stmt=$con->prepare($no_of_reg);
-                        $no_of_reg_stmt->bindParam(":tourna_id",$tournaments['id']);
-                        $no_of_reg_stmt->execute();
-                        $teams_registered=$no_of_reg_stmt->fetchColumn();
-                        if($c_pl_stmt->rowCount()>0){
-                            $if_registered=1;
-                        }
-
-                        $formatted_reg_start_date=date("d/m/y h:i A", strtotime($tournaments['registration_from']));
-                        $formatted_reg_end_date=date("d/m/y h:i A", strtotime($tournaments['registration_till']));
-                        $formatted_start_date=date("d/m/y h:i A", strtotime($tournaments['start_date']));
-                        $formatted_end_date=date("d/m/y h:i A", strtotime($tournaments['end_date']));
-                        $ouput_up_tourna.='<li class="tournament_list_item">
-                                            <div class="t_name">
-                                                <h3>'.$tournaments['name'].'</h3>
-                                            </div>
-                                            <div class="organization_name">
-                                                <h4>Organized By : </h4><p>'.$org_name['name'].'</p>
-                                            </div>
-                                            <div class="t_regis_start_date">
-                                                <p>Registration starts : '.$formatted_reg_start_date.'</p>
-                                                <p>Registration Ends : '.$formatted_reg_end_date.'</p>
-                                            </div>
-                                            <div class="t_start_end_date">
-                                                <p>Starts : '.$formatted_start_date.'</p>
-                                                <p>Ends : '.$formatted_end_date.'</p>
-                                            </div>
-                                            <div class="t_sports">
-                                                <p>Sports : '.$sport['sport'].'</p>
-                                            </div>
-                                            <div class="t_teams_regis">
-                                                <p>Team size : '.$tournaments['team_size'].'</p>
-                                                <p>Total Teams : '.$teams_registered.'/'.$tournaments['total_teams'].'</p>
-                                            </div>';
-                            if($if_registered==0){
-                                if($teams_registered==$tournaments['total_teams']){
-                                    $ouput_up_tourna.='<div class="t_register_btns">
-                                                        <button class="t-regis-btn full-regis-btn" disabled>Registerations Full</button>
-                                                        </div>
-                                                    </li>';
-
-                                }else{
-                                    $ouput_up_tourna.='<div class="t_register_btns">
-                                                        <button class="t-regis-btn" onclick="register(\''. htmlspecialchars($tournaments['name']) .'\')">Register</button>
-                                                        </div>
-                                                    </li>';
-                                }
-                            }
-                            else{
-                                $ouput_up_tourna.='<div class="t_register_btns">
-                                                    <button class="t-regis-btn alrdy_regis_btn" disabled>Registered</button>';
-                                if($is_leader==1){
-                                    $ouput_up_tourna.='<button class ="t-regis-btn can-regis">Cancel Registration</button>
-                                                        </div>
-                                                    </li>';
-                                }
-                                else{
-                                    $ouput_up_tourna.='</div>
-                                    </li>';
-                                }
-                            }
-                                            
-                    }
-                    $ouput_up_tourna.='</ul>';
-                    echo $ouput_up_tourna;
-                }
-                ?>
+            <h2 id="title">All Matches</h2>
+            <div id="up-tournaments">
+                
             </div>
             
         </section>
@@ -172,4 +137,57 @@ session_start();
         }
     </script>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Get the list of sports
+    var sportList = document.getElementById('sport_list');
+
+    // Set default selected sport (e.g., football)
+    var defaultSport = 1;
+
+    // Highlight the default selected sport
+    var defaultSportItem = sportList.querySelector('[data-sport="'+defaultSport+'"]');
+    defaultSportItem.classList.add('selected');
+
+    //select the div for showing the tournaments
+    var tourna_div=document.getElementById('up-tournaments');
+
+    // Fetch tournaments for the default selected sport
+    fetchTournaments(defaultSport);
+
+    // Add click event listener to each sport list item
+    sportList.querySelectorAll('li').forEach(function(item) {
+        item.addEventListener('click', function() {
+            // Remove 'selected' class from all sport list items
+            sportList.querySelectorAll('li').forEach(function(item) {
+                item.classList.remove('selected');
+            });
+
+            // Add 'selected' class to the clicked sport list item
+            this.classList.add('selected');
+
+            // Get the selected sport from the data-sport attribute
+            var selectedSport = this.dataset.sport;
+
+            // Fetch tournaments for the selected sport
+            fetchTournaments(selectedSport);
+        });
+    });
+
+    // Function to fetch tournaments for a given sport
+    function fetchTournaments(sport) {
+        // AJAX call to fetch tournaments for the selected sport
+        $.ajax({
+           type:'post',
+           url:'../support_php/ajax-fetch-tournament.php',
+           data:{sport_id:sport},
+           success:function(output){
+            tourna_div.innerHTML='';
+            tourna_div.innerHTML+=output;
+           }
+
+        });
+    }
+});
+</script>
 </html>

@@ -26,10 +26,11 @@ if(isset($_COOKIE['message'])){
             messagediv.style.display='block';
             setTimeout(function(){
                 messagediv.style.display='none';
+                messagediv.innerText='';
             },3000)
         });
         </script>";
-    setcookie('message','',time()-1800,'/');
+    setcookie('message','',time()-1800,'/SportsConnect/Org_php');
     }
 
 
@@ -56,7 +57,7 @@ if(isset($_POST['submit'])){
     $smt->bindParam(":additional_details",$_POST['description']);
     if($smt->execute()){
         // $message="Tournament Created Successfully";
-        setcookie('message','Tournament Created Successfully',time()+1800,'/');
+        setcookie('message','Tournament Created Successfully',time()+1800,'/SportsConnect/Org_php/');
         header('location:org_home.php');
         exit;
     }
@@ -67,21 +68,7 @@ if(isset($_POST['submit'])){
 
 }
 }
-if(isset($_COOKIE['message'])){
-    // print_r('donr');
-    $message=$_COOKIE['message'];
-    echo "<script>
-            document.addEventListener('DOMContentLoaded', function(){
-            var messagediv = document.getElementById('msg');
-            messagediv.innerText='$message';
-            messagediv.style.display='block';
-            setTimeout(function(){
-                messagediv.style.display='none';
-            },3000)
-        });
-        </script>";
-    setcookie('message','',time()-1800,'/');
-    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -259,7 +246,7 @@ if(isset($_COOKIE['message'])){
                                 <div class="edit_delete_btn">
                                 <button class="tourna-manage-btn">Manage</button>
                                 <button class="tourna-manage-btn">View Teams</button>
-                                <button type="delete" class="delete_btn tourna-manage-btn">Delete</button>
+                                <button type="delete" class="delete_btn tourna-manage-btn" data-id="'.$tournament['id'].'">Delete</button>
                                 </div>
                             </div>
                           </li>';

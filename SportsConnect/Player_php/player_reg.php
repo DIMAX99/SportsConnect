@@ -149,7 +149,6 @@ else{
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <script src="../Javascript/country.js"></script>
-    <script src="../Javascript/show.js"></script>
     <title>Register</title>
 </head>
 <body>

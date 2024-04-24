@@ -1,23 +1,18 @@
 $(document).ready(function(){
-    $('.delete_btn').click(function(){
-        var tournament_list_item =$(this).closest('li');
-        var fulltext = tournament_list_item.find('.tournament_name h2').text().trim();
-        var parts = fulltext.split(':');
-        var tournament_name = parts[1].trim();
-        if(confirm("Are You sure you want to delete the tournament'"+tournament_name+"'?")){
-            console.log('inside if')
-            jQuery.ajax({
-                type:'POST',
+    var del_btn=document.querySelectorAll('.delete_btn');
+    del_btn.forEach(button => {
+        button.addEventListener('click',function(){
+            var tourna_id=this.getAttribute('data-id');
+            if(confirm('Do you Want to delete the tournament?This will delete all info related to that tournament.')){ 
+            $.ajax({
+                type:'post',
                 url:'../support_php/ajax_del_tournament.php',
-                data:{tournament_name : tournament_name},
-                success:function(response){
-                    console.log(response);
-                    location.reload();
-                },
-                // error:function(xhr,status,error){
-                //     console.error(xhr.responseText);
-                // }
+                data:{tourna_id:tourna_id},
+                success:function(){
+                    window.location.href='../Org_php/org_home.php';    
+                }
             });
-        }
+            }
+        });
     });
 });

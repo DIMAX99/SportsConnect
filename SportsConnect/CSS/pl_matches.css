@@ -18,3 +18,15 @@
 .t-regis-btn:hover{
     cursor: pointer;
 }
+.error{
+    height: 50px;
+    display: none;
+    border: 2px solid green;
+    background-color: rgba(201,242,155,.5);
+    position: absolute;
+    left: 40%;
+    width: 300px;
+}
+.error>p{
+    color: green;
+}

@@ -76,7 +76,10 @@
             width: 90px;
             margin-top: 10px;
             visibility: hidden;
-            opacity: 0;
+            background-color: white;
+            padding: 5px;
+            border-radius: 5px;
+            border: 3px solid red;
             transition: 0.5s;
         } 
         .dropdown ul{
